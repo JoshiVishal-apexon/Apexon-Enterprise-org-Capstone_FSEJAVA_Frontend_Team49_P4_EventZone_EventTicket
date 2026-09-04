@@ -1,0 +1,226 @@
+<div class="organiser-page">
+  <div class="organiser-page__header">
+    <h1>Organiser Dashboard</h1>
+    <button type="button" class="primary-btn" (click)="openAddEventForm()">+ Add Event</button>
+  </div>
+
+  @if (showAddEventForm()) {
+    <form [formGroup]="eventForm" (ngSubmit)="submitEventForm()" class="event-form">
+      <h2>{{ editingEventId() ? 'Edit Event' : 'New Event' }}</h2>
+
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" />
+      @if (eventForm.controls.title.invalid && eventForm.controls.title.touched) {
+        <small class="validation-error">Title is required.</small>
+      }
+
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" rows="3"></textarea>
+      @if (eventForm.controls.description.invalid && eventForm.controls.description.touched) {
+        <small class="validation-error">Description is required.</small>
+      }
+
+      <label for="eventDate">Event Date</label>
+      <input id="eventDate" type="datetime-local" formControlName="eventDate" />
+      @if (eventForm.controls.eventDate.invalid && eventForm.controls.eventDate.touched) {
+        <small class="validation-error">Event date is required.</small>
+      }
+
+      <label for="venue">Venue</label>
+      <input id="venue" type="text" formControlName="venue" />
+      @if (eventForm.controls.venue.invalid && eventForm.controls.venue.touched) {
+        <small class="validation-error">Venue is required.</small>
+      }
+
+      <label for="coverImageUrl">Cover Image URL</label>
+      <input id="coverImageUrl" type="text" formControlName="coverImageUrl" />
+      @if (eventForm.controls.coverImageUrl.invalid && eventForm.controls.coverImageUrl.touched) {
+        <small class="validation-error">Cover image URL is required.</small>
+      }
+
+      <label for="categoryId">Category</label>
+      <select id="categoryId" formControlName="categoryId">
+        <option [ngValue]="null" disabled>Select a category</option>
+        @for (category of categories(); track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+        }
+      </select>
+      @if (eventForm.controls.categoryId.invalid && eventForm.controls.categoryId.touched) {
+        <small class="validation-error">Category is required.</small>
+      }
+
+      <div class="ticket-category-fields" formArrayName="ticketCategories">
+        <div class="ticket-category-fields__header">
+          <span>Ticket Categories</span>
+          <button type="button" class="link-btn" (click)="addTicketCategoryRow()">+ Add Category</button>
+        </div>
+        @if (ticketCategoryRows.length === 0 || (ticketCategoryRows.invalid && ticketCategoryRows.touched)) {
+          <small class="validation-error">At least one ticket category is required.</small>
+        }
+        @for (categoryRow of ticketCategoryRows.controls; track $index; let index = $index) {
+          <div class="ticket-category-fields__row" [formGroupName]="index">
+            <label>
+              Ticket Category
+              <select
+                formControlName="name"
+                [disabled]="categoryRow.get('id')?.value !== null"
+              >
+                <option value="" disabled>Select ticket category</option>
+                <option value="General">General</option>
+                <option value="VIP">VIP</option>
+              </select>
+              @if (categoryRow.get('name')?.invalid && categoryRow.get('name')?.touched) {
+                <small class="validation-error">Ticket category is required.</small>
+              }
+            </label>
+            <label>
+              Price
+              <input type="number" formControlName="price" min="0" step="0.01" />
+              @if (categoryRow.get('price')?.invalid && categoryRow.get('price')?.touched) {
+                <small class="validation-error">Enter a valid price.</small>
+              }
+            </label>
+            <label>
+              No. of Seats
+              <input type="number" formControlName="totalSeats" min="1" />
+              @if (categoryRow.get('totalSeats')?.invalid && categoryRow.get('totalSeats')?.touched) {
+                <small class="validation-error">At least 1 seat is required.</small>
+              }
+            </label>
+            <button
+              type="button"
+              class="link-btn link-btn--danger"
+              (click)="removeTicketCategoryRow(index)"
+              [disabled]="categoryRow.get('id')?.value !== null"
+              aria-label="Remove ticket category"
+            >
+              Remove
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="primary-btn"
+          [disabled]="submitting() || eventForm.invalid || ticketCategoryRows.length === 0"
+        >
+          {{ submitting() ? 'Saving...' : 'Save' }}
+        </button>
+        <button type="button" class="secondary-btn" (click)="cancelEventForm()">Cancel</button>
+      </div>
+    </form>
+  }
+
+  @if (loading()) {
+    <app-loading-spinner label="Loading your events..."></app-loading-spinner>
+  } @else if (events().length === 0) {
+    <p class="empty-state">You haven't created any events yet.</p>
+  } @else {
+    <table class="events-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Venue</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (event of events(); track event.id) {
+          <tr>
+            <td>
+              <button type="button" class="expand-btn" (click)="toggleExpand(event.id)">
+                {{ expandedEventId() === event.id ? '▾' : '▸' }}
+              </button>
+            </td>
+            <td>{{ event.title }}</td>
+            <td>{{ event.categoryName }}</td>
+            <td>{{ event.eventDate | date: 'medium' }}</td>
+            <td>{{ event.venue }}</td>
+            <td>
+              <span class="status-badge" [class.status-badge--inactive]="!event.active">
+                {{ event.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="row-actions">
+              <button
+                type="button"
+                class="link-btn"
+                [disabled]="!event.active"
+                (click)="openEditEventForm(event)"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="link-btn link-btn--danger"
+                [disabled]="!event.active"
+                (click)="deleteEvent(event)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          @if (expandedEventId() === event.id) {
+            <tr class="ticket-categories-row">
+              <td [attr.colspan]="7">
+                <table class="ticket-categories-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Total Seats</th>
+                      <th>Available</th>
+                      <th>Booked</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (tc of event.ticketCategories; track tc.id) {
+                      <tr>
+                        <td>{{ tc.name }}</td>
+                        <td>₹{{ tc.price }}</td>
+                        <td>{{ tc.totalSeats }}</td>
+                        <td>{{ tc.availableSeats }}</td>
+                        <td>{{ tc.totalBooked }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+
+                @if (addingTicketCategoryForEventId() === event.id) {
+                  <form
+                    [formGroup]="ticketCategoryForm"
+                    (ngSubmit)="submitTicketCategoryForm(event.id)"
+                    class="ticket-category-form"
+                  >
+                    <input type="text" placeholder="Name" formControlName="name" />
+                    <input type="number" placeholder="Price" formControlName="price" min="0" />
+                    <input type="number" placeholder="Total Seats" formControlName="totalSeats" min="1" />
+                    <button type="submit" class="primary-btn" [disabled]="submitting()">Add</button>
+                    <button type="button" class="secondary-btn" (click)="cancelTicketCategoryForm()">
+                      Cancel
+                    </button>
+                  </form>
+                } @else {
+                  <button
+                    type="button"
+                    class="link-btn"
+                    (click)="openAddTicketCategoryForm(event.id)"
+                  >
+                    + Add Ticket Category
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  }
+</div>

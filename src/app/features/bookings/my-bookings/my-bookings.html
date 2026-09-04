@@ -1,0 +1,62 @@
+<div class="my-bookings-page">
+  <h1>My Bookings</h1>
+
+  @if (loading()) {
+    <app-loading-spinner label="Loading your bookings..."></app-loading-spinner>
+  } @else if (bookings().length === 0) {
+    <p class="empty-state">You have no bookings yet.</p>
+  } @else {
+    <table class="bookings-table">
+      <thead>
+        <tr>
+          <th>Booking Ref</th>
+          <th>Event</th>
+          <th>Ticket Category</th>
+          <th>Qty</th>
+          <th>Status</th>
+          <th>Booked On</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (booking of bookings(); track booking.id) {
+          <tr>
+            <td>{{ booking.bookingRef }}</td>
+            <td>{{ booking.eventTitle }}</td>
+            <td>{{ booking.ticketCategoryName }}</td>
+            <td>{{ booking.quantity }}</td>
+            <td>
+              <span class="status-badge" [class]="'status-badge--' + displayStatus(booking).toLowerCase()">
+                {{ displayStatus(booking) }}
+              </span>
+              @if (isEventCancelled(booking)) {
+                <p class="refund-notice">
+                  Event cancelled. Refund initiated and due to arrive in your original payment source
+                  within 5 to 7 business days.
+                </p>
+              } @else if (isUserCancelled(booking)) {
+                <p class="refund-notice">
+                  Refund initiated. You will get the refund amount in your original payment source
+                  within 3 to 5 business days.
+                </p>
+              }
+            </td>
+            <td>{{ booking.createdAt | date: 'short' }}</td>
+            <td>
+              @if (isCancellable(booking)) {
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  [disabled]="cancellingId() === booking.id"
+                  (click)="cancel(booking)"
+                >
+                  {{ cancellingId() === booking.id ? 'Cancelling...' : 'Cancel' }}
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
