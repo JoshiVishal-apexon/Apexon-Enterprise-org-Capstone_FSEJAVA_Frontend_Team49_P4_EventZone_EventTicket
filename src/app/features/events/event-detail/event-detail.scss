@@ -1,0 +1,235 @@
+.event-detail__cover {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #eee;
+}
+
+.event-detail__header {
+  margin-top: 1rem;
+
+  h1 {
+    margin: 0.3rem 0;
+  }
+}
+
+.event-detail__category {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1a237e;
+  font-weight: 600;
+}
+
+.event-detail__inactive-badge {
+  margin-left: 0.5rem;
+  background: #c62828;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+}
+
+.event-detail__meta {
+  color: #666;
+}
+
+.event-detail__cancellation-notice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 1.25rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid #c62828;
+  border-radius: 6px;
+  background: #ffebee;
+  color: #7f1d1d;
+
+  strong {
+    color: #c62828;
+  }
+}
+
+.event-countdown {
+  margin: 1.25rem 0 1.5rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgba(26, 35, 126, 0.18);
+  border-radius: 10px;
+  background: linear-gradient(120deg, #eef1ff, #f8f9ff 55%, #e8f7f5);
+  box-shadow: 0 8px 20px rgba(26, 35, 126, 0.08);
+}
+
+.event-countdown__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.event-countdown__eyebrow {
+  color: #1a237e;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.event-countdown__pulse {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #00897b;
+  box-shadow: 0 0 0 5px rgba(0, 137, 123, 0.12);
+}
+
+.event-countdown__units {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.event-countdown__unit {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.65rem 0.4rem;
+  border: 1px solid rgba(26, 35, 126, 0.12);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.72);
+
+  strong {
+    color: #1a237e;
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+
+  span {
+    margin-top: 0.3rem;
+    color: #5c6380;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+.event-countdown__started {
+  color: #00796b;
+  font-weight: 700;
+}
+
+.event-detail__description {
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.6rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    background: #f5f5f5;
+  }
+}
+
+.booking-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.booking-login-prompt {
+  a {
+    color: #1a237e;
+    font-weight: 600;
+  }
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 360px;
+
+  label {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  select,
+  input {
+    padding: 0.55rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
+    padding: 0.65rem;
+    background: #1a237e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.field-error {
+  color: #c62828;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.booking-confirmation {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #e8f5e9;
+  border: 1px solid #2e7d32;
+  border-radius: 4px;
+  color: #2e7d32;
+}
+
+.empty-state {
+  color: #666;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .event-countdown {
+    padding: 1rem 0.75rem;
+  }
+
+  .event-countdown__units {
+    gap: 0.35rem;
+  }
+
+  .event-countdown__unit {
+    padding: 0.55rem 0.2rem;
+
+    strong {
+      font-size: 1.25rem;
+    }
+
+    span {
+      font-size: 0.6rem;
+    }
+  }
+}

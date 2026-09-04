@@ -1,0 +1,49 @@
+<div class="event-list-page">
+  <h1>Upcoming Events</h1>
+
+  <div class="category-filter">
+    <button
+      type="button"
+      class="category-tab"
+      [class.active]="selectedCategory() === ''"
+      (click)="onCategoryChange('')"
+    >
+      All
+    </button>
+    @for (category of categories(); track category.id) {
+      <button
+        type="button"
+        class="category-tab"
+        [class.active]="selectedCategory() === category.name"
+        (click)="onCategoryChange(category.name)"
+      >
+        {{ category.name }}
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner label="Loading events..."></app-loading-spinner>
+  } @else if (events().length === 0) {
+    <p class="empty-state">No events found for this category.</p>
+  } @else {
+    <div class="event-grid">
+      @for (event of events(); track event.id) {
+        <a class="event-card" [routerLink]="['/events', event.id]">
+          <img
+            class="event-card__image"
+            [src]="event.coverImageUrl || 'https://placehold.co/400x220?text=EventZone'"
+            [alt]="event.title"
+          />
+          <div class="event-card__body">
+            <span class="event-card__category">{{ event.categoryName }}</span>
+            <h3 class="event-card__title">{{ event.title }}</h3>
+            <p class="event-card__meta">{{ event.eventDate | date: 'medium' }}</p>
+            <p class="event-card__meta">{{ event.venue }}</p>
+            <p class="event-card__price">from ₹{{ event.minPrice }}</p>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

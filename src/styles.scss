@@ -1,0 +1,28 @@
+/* Global styles for EventZone */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #212121;
+  background-color: #fafafa;
+}
+
+h1,
+h2,
+h3 {
+  color: #1a237e;
+}
+
+a {
+  color: #1a237e;
+}
+
+button {
+  font-family: inherit;
+}

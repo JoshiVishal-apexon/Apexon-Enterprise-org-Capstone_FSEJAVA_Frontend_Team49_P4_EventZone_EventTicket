@@ -1,0 +1,125 @@
+@if (loading()) {
+  <app-loading-spinner label="Loading event..."></app-loading-spinner>
+} @else if (event(); as ev) {
+  <div class="event-detail-page">
+    <img
+      class="event-detail__cover"
+      [src]="ev.coverImageUrl || 'https://placehold.co/900x320?text=EventZone'"
+      [alt]="ev.title"
+    />
+
+    <div class="event-detail__header">
+      <span class="event-detail__category">{{ ev.categoryName }}</span>
+      @if (!ev.active) {
+        <span class="event-detail__inactive-badge">Inactive</span>
+      }
+      <h1>{{ ev.title }}</h1>
+      <p class="event-detail__meta">{{ ev.eventDate | date: 'medium' }} &middot; {{ ev.venue }}</p>
+    </div>
+
+    @if (!ev.active) {
+      <div class="event-detail__cancellation-notice" role="alert">
+        <strong>Event cancelled</strong>
+        <span>Any booking for this event has been cancelled and your refund has been initiated.</span>
+        <span>The refund will be credited to your original payment source within 5 to 7 business days.</span>
+      </div>
+    }
+
+    <section class="event-countdown" aria-live="polite">
+      @if (countdown().totalSeconds > 0) {
+        <div class="event-countdown__heading">
+          <span class="event-countdown__eyebrow">Event starts in</span>
+          <span class="event-countdown__pulse"></span>
+        </div>
+        <div class="event-countdown__units">
+          <div class="event-countdown__unit">
+            <strong>{{ countdown().days | number: '2.0-0' }}</strong>
+            <span>Days</span>
+          </div>
+          <div class="event-countdown__unit">
+            <strong>{{ countdown().hours | number: '2.0-0' }}</strong>
+            <span>Hours</span>
+          </div>
+          <div class="event-countdown__unit">
+            <strong>{{ countdown().minutes | number: '2.0-0' }}</strong>
+            <span>Minutes</span>
+          </div>
+          <div class="event-countdown__unit">
+            <strong>{{ countdown().seconds | number: '2.0-0' }}</strong>
+            <span>Seconds</span>
+          </div>
+        </div>
+      } @else {
+        <div class="event-countdown__started">This event has started.</div>
+      }
+    </section>
+
+    <p class="event-detail__description">{{ ev.description }}</p>
+
+    <h2>Ticket Categories</h2>
+    <table class="ticket-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Available Seats</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tc of ev.ticketCategories; track tc.id) {
+          <tr>
+            <td>{{ tc.name }}</td>
+            <td>₹{{ tc.price }}</td>
+            <td>{{ tc.availableSeats }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (ev.active) {
+    <div class="booking-section">
+      <h2>Book Tickets</h2>
+
+      @if (!isLoggedIn()) {
+        <p class="booking-login-prompt">
+          Please <a routerLink="/login" [queryParams]="{ redirectTo: '/events/' + ev.id }">login</a>
+          to book tickets for this event.
+        </p>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="booking-form">
+          <label for="ticketCategoryId">Ticket category</label>
+          <select id="ticketCategoryId" formControlName="ticketCategoryId">
+            <option [ngValue]="null" disabled>Select a ticket category</option>
+            @for (tc of ev.ticketCategories; track tc.id) {
+              <option [ngValue]="tc.id" [disabled]="tc.availableSeats === 0">
+                {{ tc.name }} - ₹{{ tc.price }} ({{ tc.availableSeats }} left)
+              </option>
+            }
+          </select>
+          @if (ticketCategoryId.invalid && ticketCategoryId.touched) {
+            <p class="field-error">Please select a ticket category.</p>
+          }
+
+          <label for="quantity">Quantity</label>
+          <input id="quantity" type="number" formControlName="quantity" min="1" max="5" />
+          @if (quantity.invalid && quantity.touched) {
+            <p class="field-error">Quantity must be between 1 and 5.</p>
+          }
+
+          <button type="submit" [disabled]="submitting()">
+            {{ submitting() ? 'Booking...' : 'Book Now' }}
+          </button>
+        </form>
+
+        @if (confirmedBooking(); as booking) {
+          <div class="booking-confirmation">
+            Booking confirmed! Reference: <strong>{{ booking.bookingRef }}</strong>
+          </div>
+        }
+      }
+    </div>
+    }
+  </div>
+} @else {
+  <p class="empty-state">Event not found.</p>
+}

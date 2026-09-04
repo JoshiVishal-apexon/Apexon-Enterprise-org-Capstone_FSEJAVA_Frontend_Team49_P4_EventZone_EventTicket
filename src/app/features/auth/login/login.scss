@@ -1,0 +1,53 @@
+.auth-page {
+  max-width: 420px;
+  margin: 2rem auto;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  label {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  input {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  button {
+    margin-top: 1.25rem;
+    padding: 0.7rem;
+    background: #1a237e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: #131a5e;
+    }
+  }
+}
+
+.field-error {
+  color: #c62828;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.auth-switch {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
