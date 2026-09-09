@@ -1,7 +1,23 @@
 <div class="auth-page">
-  <h1>Login</h1>
+  <div class="auth-visual" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=85"
+      alt=""
+    />
+    <div class="auth-visual__overlay"></div>
+    <div class="auth-visual__content">
+      <span class="auth-visual__eyebrow">Your next experience awaits</span>
+      <h2>Make space for moments worth remembering.</h2>
+      <p>Discover live events, unforgettable nights, and the people who make them special.</p>
+      <div class="auth-visual__dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+  <div class="auth-panel">
+    <span class="auth-panel__eyebrow">Welcome back</span>
+    <h1>Login</h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
     <label for="email">Email</label>
     <input id="email" type="email" formControlName="email" autocomplete="email" />
     @if (email.invalid && email.touched) {
@@ -29,9 +45,10 @@
     <button type="submit" [disabled]="submitting">
       {{ submitting ? 'Logging in...' : 'Login' }}
     </button>
-  </form>
+    </form>
 
-  <p class="auth-switch">
-    Don't have an account? <a routerLink="/register">Register</a>
-  </p>
+    <p class="auth-switch">
+      Don't have an account? <a routerLink="/register">Register</a>
+    </p>
+  </div>
 </div>
