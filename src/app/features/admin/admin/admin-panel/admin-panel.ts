@@ -1,12 +1,12 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { CategoryService } from '../../../core/services/category.service';
-import { AdminService } from '../../../core/services/admin.service';
-import { Category } from '../../../core/models/category.model';
-import { EventSummary } from '../../../core/models/event.model';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
-import { ToastService } from '../../../shared/services/toast.service';
+import { CategoryService } from '../../../../core/services/category.service';
+import { AdminService } from '../../../../core/services/admin.service';
+import { Category } from '../../../../core/models/category.model';
+import { EventSummary } from '../../../../core/models/event.model';
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-admin-panel',

@@ -2,19 +2,19 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, Observable } from 'rxjs';
-import { OrganiserService } from '../../../core/services/organiser.service';
-import { EventService } from '../../../core/services/event.service';
-import { BookingService } from '../../../core/services/booking.service';
-import { CategoryService } from '../../../core/services/category.service';
-import { OrganiserEvent } from '../../../core/models/event.model';
-import { Category } from '../../../core/models/category.model';
+import { OrganiserService } from '../../../../core/services/organiser.service';
+import { EventService } from '../../../../core/services/event.service';
+import { BookingService } from '../../../../core/services/booking.service';
+import { CategoryService } from '../../../../core/services/category.service';
+import { OrganiserEvent } from '../../../../core/models/event.model';
+import { Category } from '../../../../core/models/category.model';
 import {
   CreateTicketCategoryRequest,
   OrganiserTicketCategory,
   TicketCategory
-} from '../../../core/models/ticket-category.model';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
-import { ToastService } from '../../../shared/services/toast.service';
+} from '../../../../core/models/ticket-category.model';
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-organiser-dashboard',

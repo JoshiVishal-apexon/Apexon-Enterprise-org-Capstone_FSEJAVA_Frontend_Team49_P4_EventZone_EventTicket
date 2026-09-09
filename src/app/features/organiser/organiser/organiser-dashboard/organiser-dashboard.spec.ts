@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { OrganiserDashboardComponent } from './organiser-dashboard';
-import { OrganiserService } from '../../../core/services/organiser.service';
-import { EventService } from '../../../core/services/event.service';
-import { BookingService } from '../../../core/services/booking.service';
-import { CategoryService } from '../../../core/services/category.service';
-import { ToastService } from '../../../shared/services/toast.service';
+import { OrganiserService } from '../../../../core/services/organiser.service';
+import { EventService } from '../../../../core/services/event.service';
+import { BookingService } from '../../../../core/services/booking.service';
+import { CategoryService } from '../../../../core/services/category.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 describe('OrganiserDashboardComponent', () => {
   let fixture: ComponentFixture<OrganiserDashboardComponent>;
