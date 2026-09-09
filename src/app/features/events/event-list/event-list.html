@@ -1,5 +1,25 @@
 <div class="event-list-page">
-  <h1>Upcoming Events</h1>
+  <header
+    class="page-hero"
+    [style.background-image]="'url(' + heroSlides[currentSlide()] + ')'"
+  >
+    <div class="page-hero__content">
+      <p class="page-hero__eyebrow">Make plans worth remembering</p>
+      <h1>Upcoming Events</h1>
+      <p class="page-hero__intro">Find live music, culture, and experiences happening near you.</p>
+    </div>
+    <div class="page-hero__dots" aria-label="Choose banner slide">
+      @for (slide of heroSlides; track slide; let index = $index) {
+        <button
+          type="button"
+          [class.active]="currentSlide() === index"
+          [attr.aria-label]="'Show slide ' + (index + 1)"
+          [attr.aria-current]="currentSlide() === index ? 'true' : null"
+          (click)="selectSlide(index)"
+        ></button>
+      }
+    </div>
+  </header>
 
   <div class="category-filter">
     <button

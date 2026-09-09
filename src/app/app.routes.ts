@@ -32,7 +32,7 @@ export const routes: Routes = [
     path: 'organiser',
     canActivate: [roleGuard('ORGANISER')],
     loadComponent: () =>
-      import('./features/organiser/organiser-dashboard/organiser-dashboard').then(
+      import('./features/organiser/organiser/organiser-dashboard/organiser-dashboard').then(
         (m) => m.OrganiserDashboardComponent
       )
   },
@@ -40,7 +40,7 @@ export const routes: Routes = [
     path: 'admin',
     canActivate: [roleGuard('ADMIN')],
     loadComponent: () =>
-      import('./features/admin/admin-panel/admin-panel').then((m) => m.AdminPanelComponent)
+      import('./features/admin/admin/admin-panel/admin-panel').then((m) => m.AdminPanelComponent)
   },
   {
     path: '**',

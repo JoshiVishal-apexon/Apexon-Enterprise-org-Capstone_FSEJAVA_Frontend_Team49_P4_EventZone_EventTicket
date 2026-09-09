@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AdminPanelComponent } from './admin-panel';
-import { CategoryService } from '../../../core/services/category.service';
-import { AdminService } from '../../../core/services/admin.service';
-import { ToastService } from '../../../shared/services/toast.service';
+import { CategoryService } from '../../../../core/services/category.service';
+import { AdminService } from '../../../../core/services/admin.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 describe('AdminPanelComponent', () => {
   let fixture: ComponentFixture<AdminPanelComponent>;

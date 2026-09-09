@@ -1,30 +1,45 @@
+.admin-page {
+  padding-bottom: 2rem;
+}
+
 .admin-section {
   margin-bottom: 2.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 14px 32px rgba(23, 34, 56, 0.08);
 }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
+  background: var(--surface);
   margin-bottom: 1rem;
 
   th,
   td {
     text-align: left;
     padding: 0.6rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--line);
     font-size: 0.9rem;
   }
 
   th {
-    background: #f5f5f5;
+    background: linear-gradient(90deg, #e1f3f0, #f9e8e2);
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
   }
 }
 
 .admin-note {
   font-size: 0.85rem;
   color: #666;
-  background: #fff8e1;
-  border: 1px solid #ffe082;
+  color: #74531b;
+  background: #fff7df;
+  border: 1px solid #f2d487;
   padding: 0.6rem 0.9rem;
   border-radius: 4px;
 }
@@ -38,8 +53,8 @@
 
   input {
     padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
   }
 
   label {
@@ -50,10 +65,10 @@
 
 .primary-btn {
   padding: 0.5rem 1rem;
-  background: #1a237e;
+  background: var(--coral);
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
 
   &:disabled {
@@ -64,10 +79,10 @@
 
 .secondary-btn {
   padding: 0.5rem 1rem;
-  background: #fff;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -79,7 +94,7 @@
 .link-btn {
   border: none;
   background: none;
-  color: #1a237e;
+  color: var(--teal);
   cursor: pointer;
   font-size: 0.85rem;
   padding: 0;
