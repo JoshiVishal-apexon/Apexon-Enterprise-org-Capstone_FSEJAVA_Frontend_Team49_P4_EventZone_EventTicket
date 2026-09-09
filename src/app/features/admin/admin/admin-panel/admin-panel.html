@@ -1,0 +1,115 @@
+<div class="admin-page">
+  <h1>Admin Panel</h1>
+
+  <section class="admin-section">
+    <h2>Categories</h2>
+
+    @if (loadingCategories()) {
+      <app-loading-spinner label="Loading categories..."></app-loading-spinner>
+    } @else {
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of categories(); track category.id) {
+            <tr>
+              <td>{{ category.name }}</td>
+              <td class="row-actions">
+                <button type="button" class="link-btn" (click)="startEditCategory(category)">Edit</button>
+                <button type="button" class="link-btn link-btn--danger" (click)="deleteCategory(category)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="2" class="empty-state">No categories yet.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    <form [formGroup]="categoryForm" (ngSubmit)="submitCategoryForm()" class="category-form">
+      <input type="text" placeholder="Category name" formControlName="name" />
+      <button type="submit" class="primary-btn" [disabled]="submitting()">
+        {{ editingCategoryId() ? 'Update' : 'Add' }}
+      </button>
+      @if (editingCategoryId()) {
+        <button type="button" class="secondary-btn" (click)="cancelCategoryEdit()">Cancel</button>
+      }
+    </form>
+  </section>
+
+  <section class="admin-section">
+    <h2>Events</h2>
+    <p class="admin-note">
+      This list includes both active and inactive events. Inactive events are
+      hidden from the public event list until they are activated again.
+    </p>
+
+    @if (loadingEvents()) {
+      <app-loading-spinner label="Loading events..."></app-loading-spinner>
+    } @else {
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Venue</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (event of events(); track event.id) {
+            <tr>
+              <td>{{ event.id }}</td>
+              <td>{{ event.title }}</td>
+              <td>{{ event.categoryName }}</td>
+              <td>{{ event.eventDate | date: 'medium' }}</td>
+              <td>{{ event.venue }}</td>
+              <td>
+                @if (event.active) {
+                  <button
+                    type="button"
+                    class="link-btn link-btn--danger"
+                    [disabled]="togglingEventId() === event.id"
+                    (click)="deactivate(event.id)"
+                  >
+                    Deactivate
+                  </button>
+                } @else {
+                  <button
+                    type="button"
+                    class="link-btn"
+                    [disabled]="togglingEventId() === event.id"
+                    (click)="activate(event.id)"
+                  >
+                    Activate
+                  </button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">No events found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    <form [formGroup]="manualEventIdForm" class="manual-event-form">
+      <label for="eventId">Event ID</label>
+      <input id="eventId" type="text" formControlName="eventId" />
+      <button type="button" class="secondary-btn" (click)="submitManualActivate()">Activate</button>
+      <button type="button" class="secondary-btn" (click)="submitManualDeactivate()">Deactivate</button>
+    </form>
+  </section>
+</div>
