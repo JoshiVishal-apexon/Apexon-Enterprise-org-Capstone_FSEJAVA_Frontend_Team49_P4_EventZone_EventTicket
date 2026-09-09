@@ -1,5 +1,25 @@
 <div class="my-bookings-page">
-  <h1>My Bookings</h1>
+  <header
+    class="bookings-hero"
+    [style.background-image]="'url(' + heroSlides[currentSlide()] + ')'"
+  >
+    <div>
+      <p class="bookings-hero__eyebrow">Your event calendar</p>
+      <h1>My Bookings</h1>
+      <p>Keep every ticket, date, and plan in one place.</p>
+    </div>
+    <div class="bookings-hero__dots" aria-label="Choose banner slide">
+      @for (slide of heroSlides; track slide; let index = $index) {
+        <button
+          type="button"
+          [class.active]="currentSlide() === index"
+          [attr.aria-label]="'Show slide ' + (index + 1)"
+          [attr.aria-current]="currentSlide() === index ? 'true' : null"
+          (click)="selectSlide(index)"
+        ></button>
+      }
+    </div>
+  </header>
 
   @if (loading()) {
     <app-loading-spinner label="Loading your bookings..."></app-loading-spinner>

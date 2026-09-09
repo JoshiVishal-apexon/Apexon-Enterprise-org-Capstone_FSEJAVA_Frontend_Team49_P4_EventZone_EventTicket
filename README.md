@@ -1,4 +1,4 @@
-# Capstone_FSEJAVA_Team44_EventZone_UI
+# Capstone_FSEJAVA_Team49_EventZone_UI
 At EventZone, we connect people with the events they love. This Foundation version delivers a clean event-browsing and ticket-booking experience - no payment gateway, no QR code generation, just a complete registration and booking flow
 # EventZone UI
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { catchError, forkJoin, of } from 'rxjs';
 import { BookingService } from '../../../core/services/booking.service';
@@ -14,19 +14,35 @@ import { ToastService } from '../../../shared/services/toast.service';
   templateUrl: './my-bookings.html',
   styleUrl: './my-bookings.scss'
 })
-export class MyBookingsComponent implements OnInit {
+export class MyBookingsComponent implements OnInit, OnDestroy {
   private readonly bookingService = inject(BookingService);
   private readonly eventService = inject(EventService);
   private readonly toast = inject(ToastService);
+  private autoSlideTimer?: ReturnType<typeof setInterval>;
 
   readonly bookings = signal<Booking[]>([]);
   readonly loading = signal(false);
   readonly cancellingId = signal<number | null>(null);
   readonly cancelledEventIds = signal<Set<string>>(new Set());
   readonly userCancelledBookingIds = signal<Set<number>>(new Set());
+  readonly currentSlide = signal(0);
+  readonly heroSlides = [
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1800&q=82',
+    'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1800&q=82',
+    'https://images.unsplash.com/photo-1470229722913-7c0e2dbbda3e?auto=format&fit=crop&w=1800&q=82',
+    'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=1800&q=82',
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=82'
+  ];
 
   ngOnInit(): void {
     this.load();
+    this.autoSlideTimer = setInterval(() => this.nextSlide(), 5000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.autoSlideTimer) {
+      clearInterval(this.autoSlideTimer);
+    }
   }
 
   cancel(booking: Booking): void {
@@ -65,6 +81,14 @@ export class MyBookingsComponent implements OnInit {
 
   isUserCancelled(booking: Booking): boolean {
     return this.userCancelledBookingIds().has(booking.id);
+  }
+
+  nextSlide(): void {
+    this.currentSlide.update((slide) => (slide + 1) % this.heroSlides.length);
+  }
+
+  selectSlide(slide: number): void {
+    this.currentSlide.set(slide);
   }
 
   private load(): void {

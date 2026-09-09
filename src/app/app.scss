@@ -1,6 +1,11 @@
 .app-content {
-  max-width: 1200px;
+  width: min(100%, 1440px);
   margin: 0 auto;
-  padding: 1.5rem;
-  min-height: calc(100vh - 60px);
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 4vw, 3.5rem);
+  min-height: calc(100vh - 68px);
+}
+
+.app-content:has(.auth-page) {
+  max-width: none;
+  padding: 0;
 }
