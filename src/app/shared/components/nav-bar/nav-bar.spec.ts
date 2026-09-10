@@ -43,6 +43,24 @@ describe('NavBarComponent', () => {
     expect(fixture.componentInstance.profileOpen).toBeTrue();
   });
 
+  it('should render the EventZone home link and user actions', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const brandLink = compiled.querySelector('a[aria-label="EventZone home"]');
+    expect(brandLink).toBeTruthy();
+    expect(brandLink?.textContent).toContain('EventZone');
+    expect(compiled.textContent).toContain('My Bookings');
+    expect(compiled.textContent).toContain('Admin Panel');
+  });
+
+  it('should close the profile menu when a click happens outside the navbar', () => {
+    fixture.componentInstance.profileOpen = true;
+
+    fixture.componentInstance.closeProfileOnOutsideClick(new MouseEvent('click', { bubbles: true }));
+
+    expect(fixture.componentInstance.profileOpen).toBeFalse();
+  });
+
   it('should log the user out and navigate home', () => {
     const router = TestBed.inject(Router);
     spyOn(router, 'navigate');

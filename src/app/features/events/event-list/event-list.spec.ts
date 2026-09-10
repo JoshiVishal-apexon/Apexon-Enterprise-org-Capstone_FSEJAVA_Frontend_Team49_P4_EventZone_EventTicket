@@ -66,4 +66,15 @@ describe('EventListComponent', () => {
     expect(component.selectedCategory()).toBe('Music');
     expect(eventService.list).toHaveBeenCalledWith('Music');
   });
+
+  it('should move through the hero slides and wrap around to the first slide', () => {
+    const component = fixture.componentInstance;
+
+    component.selectSlide(component.heroSlides.length - 1);
+    component.nextSlide();
+    expect(component.currentSlide()).toBe(0);
+
+    component.nextSlide();
+    expect(component.currentSlide()).toBe(1);
+  });
 });
