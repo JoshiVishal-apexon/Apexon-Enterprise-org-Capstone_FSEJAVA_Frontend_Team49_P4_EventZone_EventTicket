@@ -83,4 +83,14 @@ describe('MyBookingsComponent', () => {
     expect(bookingService.cancel).toHaveBeenCalledWith(1);
     expect(component.userCancelledBookingIds().has(1)).toBeTrue();
   });
+
+  it('should mark an event as cancelled when the related event is inactive', () => {
+    const component = fixture.componentInstance;
+    const booking = component.bookings()[0];
+
+    component['cancelledEventIds'].set(new Set(['evt-1']));
+
+    expect(component.isEventCancelled(booking)).toBeTrue();
+    expect(component.displayStatus(booking)).toBe('CANCELLED');
+  });
 });
